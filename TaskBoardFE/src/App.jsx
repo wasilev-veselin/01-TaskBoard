@@ -148,6 +148,38 @@ function App() {
                         />
                       </label>
 
+                      <label className="mb-3 block text-xs font-medium text-slate-500">
+                        Edit description
+                        <textarea
+                          defaultValue={task.description}
+                          rows="3"
+                          className="mt-1 w-full resize-none rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+                        />
+                      </label>
+
+                      <div className="mb-3 grid gap-3 sm:grid-cols-2">
+                        <label className="block text-xs font-medium text-slate-500">
+                          Edit assignee
+                          <input
+                            type="text"
+                            defaultValue={task.assignee}
+                            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+                          />
+                        </label>
+
+                        <label className="block text-xs font-medium text-slate-500">
+                          Edit priority
+                          <select
+                            defaultValue={task.priority}
+                            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+                          >
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                          </select>
+                        </label>
+                      </div>
+
                       <div className="flex flex-col gap-3">
                         <label className="text-xs font-medium text-slate-500">
                           Change status
