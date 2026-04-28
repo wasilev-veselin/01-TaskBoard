@@ -28,17 +28,14 @@ Backend
 
 Use one of:
 	•	Node.js + Express
-	•	Java + Spring Boot
-	•	Python + FastAPI / Flask
 
 Backend must expose a REST API.
 
 Data Storage
 
 Choose one:
-	•	PostgreSQL / MySQL / SQLite
-	•	In-memory store for simpler version
-	•	local JSON file only if clearly documented as a simplification
+	•	PostgreSQL / SQLite and ORM
+
 
 ⸻
 
