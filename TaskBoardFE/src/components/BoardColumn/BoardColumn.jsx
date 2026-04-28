@@ -9,8 +9,41 @@ function formatDate(value) {
   }).format(new Date(value));
 }
 
-function BoardColumn({ task, taskStatuses }) {
+function createTaskForm(task) {
+  return {
+    title: task.title,
+    description: task.description ?? "",
+    assignee: task.assignee ?? "",
+    priority: task.priority ?? "medium",
+    statusId: task.statusId,
+  };
+}
+
+function BoardColumn({ task, taskStatuses, onUpdateTask }) {
   const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState(() => createTaskForm(task));
+
+  function handleInputChange(event) {
+    const { name, value } = event.target;
+
+    setFormData((currentFormData) => ({
+      ...currentFormData,
+      [name]: name === "statusId" ? Number(value) : value,
+    }));
+  }
+
+  function handleCancel() {
+    setFormData(createTaskForm(task));
+    setIsEditing(false);
+  }
+
+  function handleSave() {
+    onUpdateTask({
+      ...task,
+      ...formData,
+    });
+    setIsEditing(false);
+  }
 
   return (
     <article className="rounded-md border border-slate-200 bg-slate-50 p-4 text-left">
@@ -85,8 +118,10 @@ function BoardColumn({ task, taskStatuses }) {
           <label className="mb-3 block text-xs font-medium text-slate-500">
             Edit title
             <input
+              name="title"
               type="text"
-              defaultValue={task.title}
+              value={formData.title}
+              onChange={handleInputChange}
               className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
             />
           </label>
@@ -94,7 +129,9 @@ function BoardColumn({ task, taskStatuses }) {
           <label className="mb-3 block text-xs font-medium text-slate-500">
             Edit description
             <textarea
-              defaultValue={task.description}
+              name="description"
+              value={formData.description}
+              onChange={handleInputChange}
               rows="3"
               className="mt-1 w-full resize-none rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
             />
@@ -104,8 +141,10 @@ function BoardColumn({ task, taskStatuses }) {
             <label className="block text-xs font-medium text-slate-500">
               Edit assignee
               <input
+                name="assignee"
                 type="text"
-                defaultValue={task.assignee}
+                value={formData.assignee}
+                onChange={handleInputChange}
                 className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
               />
             </label>
@@ -113,7 +152,9 @@ function BoardColumn({ task, taskStatuses }) {
             <label className="block text-xs font-medium text-slate-500">
               Edit priority
               <select
-                defaultValue={task.priority}
+                name="priority"
+                value={formData.priority}
+                onChange={handleInputChange}
                 className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
               >
                 <option value="low">Low</option>
@@ -127,7 +168,9 @@ function BoardColumn({ task, taskStatuses }) {
             <label className="text-xs font-medium text-slate-500">
               Change status
               <select
-                defaultValue={task.statusId}
+                name="statusId"
+                value={formData.statusId}
+                onChange={handleInputChange}
                 className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
               >
                 {taskStatuses.map((statusOption) => (
@@ -142,14 +185,14 @@ function BoardColumn({ task, taskStatuses }) {
               <button
                 type="button"
                 className="rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-100"
-                onClick={() => setIsEditing(false)}
+                onClick={handleCancel}
               >
                 Cancel
               </button>
               <button
                 type="button"
                 className="rounded-md bg-slate-950 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-slate-800"
-                onClick={() => setIsEditing(false)}
+                onClick={handleSave}
               >
                 OK
               </button>

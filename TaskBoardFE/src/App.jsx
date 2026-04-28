@@ -1,3 +1,4 @@
+import { useState } from "react"
 import BoardColumn from "./components/BoardColumn/BoardColumn"
 
 const taskStatuses = [
@@ -10,7 +11,7 @@ const apiResponse = {
   tasks: [
     {
       id: 101,
-      title: 'Create task board layout',
+      title: 'Create task',
       statusId: 1,
       createdAt: '2026-04-27T09:00:00.000Z',
       updatedAt: '2026-04-27T09:00:00.000Z',
@@ -28,20 +29,18 @@ const apiResponse = {
       assignee: 'Mira',
       priority: 'medium',
     },
-    {
-      id: 103,
-      title: 'Install Tailwind',
-      statusId: 2,
-      createdAt: '2026-04-27T08:20:00.000Z',
-      updatedAt: '2026-04-27T08:45:00.000Z',
-      description: 'Configure Tailwind for the Vite React application.',
-      assignee: 'Nikolay',
-      priority: 'low',
-    },
   ],
 }
 
 function App() {
+  const [tasks, setTasks] = useState(apiResponse.tasks)
+
+  function handleUpdateTask(updatedTask) {
+    setTasks((currentTasks) =>
+      currentTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task))
+    )
+  }
+
   return (
     <main className="min-h-screen bg-slate-100 px-6 py-10 text-slate-950">
       <section className="mx-auto max-w-6xl">
@@ -65,7 +64,7 @@ function App() {
 
         <div className="grid gap-5 lg:grid-cols-3">
           {taskStatuses.map((status) => {
-            const columnTasks = apiResponse.tasks.filter((task) => task.statusId === status.id)
+            const columnTasks = tasks.filter((task) => task.statusId === status.id)
 
             return (
               <section
@@ -88,7 +87,12 @@ function App() {
 
                 <div className="space-y-3">
                   {columnTasks.map((task) => (
-                    <BoardColumn key={task.id} task={task} taskStatuses={taskStatuses} />
+                    <BoardColumn
+                      key={task.id}
+                      task={task}
+                      taskStatuses={taskStatuses}
+                      onUpdateTask={handleUpdateTask}
+                    />
                   ))}
                 </div>
               </section>
