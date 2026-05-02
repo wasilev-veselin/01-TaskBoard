@@ -8,14 +8,14 @@ const taskStatuses = [
 ]
 
 function App() {
-  //премахни updateTask 
-  const { tasks, setTasks, isLoading, error } = tasksService.useTasks()
-
-  function handleUpdateTask(updatedTask) {
-    setTasks((currentTasks) =>
-      currentTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task))
-    )
-  }
+  const {
+    tasks,
+    isLoading,
+    error,
+    success,
+    updateTask,
+    deleteTask,
+  } = tasksService.useTasks()
 
   return (
     <main className="min-h-screen bg-slate-100 px-6 py-10 text-slate-950">
@@ -50,6 +50,12 @@ function App() {
           </p>
         )}
 
+        {success && (
+          <p className="rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
+            {success}
+          </p>
+        )}
+
         {!isLoading && !error && (
           <div className="grid gap-5 lg:grid-cols-3">
             {taskStatuses.map((status) => {
@@ -80,7 +86,8 @@ function App() {
                         key={task.id}
                         task={task}
                         taskStatuses={taskStatuses}
-                        onUpdateTask={handleUpdateTask}
+                        onUpdateTask={updateTask}
+                        onDeleteTask={deleteTask}
                       />
                     ))}
                   </div>

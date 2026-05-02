@@ -19,7 +19,7 @@ function createTaskForm(task) {
   };
 }
 
-function BoardColumn({ task, taskStatuses, onUpdateTask }) {
+function BoardColumn({ task, taskStatuses, onUpdateTask, onDeleteTask }) {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(() => createTaskForm(task));
 
@@ -61,6 +61,7 @@ function BoardColumn({ task, taskStatuses, onUpdateTask }) {
             <button
               type="button"
               className="shrink-0 rounded-md px-2 py-1 text-xs font-medium text-red-600 transition hover:bg-red-50"
+              onClick={() => onDeleteTask(task.id)}
             >
               Delete task
             </button>
