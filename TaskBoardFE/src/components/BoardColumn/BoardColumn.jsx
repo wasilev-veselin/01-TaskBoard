@@ -1,4 +1,5 @@
 import { useState } from "react";
+import {taskStatuses} from "../../constants/taskStatuses"
 
 function formatDate(value) {
   return new Intl.DateTimeFormat("en", {
@@ -8,6 +9,7 @@ function formatDate(value) {
     minute: "2-digit",
   }).format(new Date(value));
 }
+
 
 function createTaskForm(task) {
   return {
@@ -19,7 +21,7 @@ function createTaskForm(task) {
   };
 }
 
-function BoardColumn({ task, taskStatuses, onUpdateTask, onDeleteTask }) {
+function BoardColumn({ task, onUpdateTask, onDeleteTask }) {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(() => createTaskForm(task));
 

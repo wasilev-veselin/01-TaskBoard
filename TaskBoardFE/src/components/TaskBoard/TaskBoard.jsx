@@ -1,11 +1,7 @@
 import BoardColumn from "../BoardColumn/BoardColumn"
 import { tasksService } from "../../services/tasksService"
 
-const taskStatuses = [
-  { id: 1, title: "Todo" },
-  { id: 2, title: "In Progress" },
-  { id: 3, title: "Done" },
-]
+import {taskStatuses} from "../../constants/taskStatuses"
 
 function TaskBoard() {
   const {
@@ -66,7 +62,7 @@ function TaskBoard() {
                     <BoardColumn
                       key={task.id}
                       task={task}
-                      taskStatuses={taskStatuses}
+                   
                       onUpdateTask={updateTask}
                       onDeleteTask={deleteTask}
                     />
