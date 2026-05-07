@@ -1,4 +1,5 @@
 import BoardColumn from "../BoardColumn/BoardColumn"
+import CreateTaskForm from "../CreateTask"
 import { tasksService } from "../../services/tasksService"
 
 import {taskStatuses} from "../../constants/taskStatuses"
@@ -7,8 +8,10 @@ function TaskBoard() {
   const {
     tasks,
     isLoading,
+    isCreating,
     error,
     success,
+    createTask,
     updateTask,
     deleteTask,
   } = tasksService.useTasks()
@@ -50,12 +53,11 @@ function TaskBoard() {
                   </span>
                 </div>
 
-                <button
-                  type="button"
-                  className="mb-4 w-full rounded-md border border-dashed border-slate-300 px-3 py-2 text-sm font-medium text-slate-600 transition hover:border-slate-400 hover:bg-slate-50"
-                >
-                  Create task
-                </button>
+                <CreateTaskForm
+                  statusId={status.id}
+                  isCreating={isCreating}
+                  onCreateTask={createTask}
+                />
 
                 <div className="space-y-3">
                   {columnTasks.map((task) => (
