@@ -1,6 +1,7 @@
+import { useMemo } from "react"
 import BoardColumn from "../BoardColumn/BoardColumn"
 import CreateTaskForm from "../CreateTask"
-import { tasksService } from "../../services/tasksService"
+import { useTasks } from "../../hooks/useTasks"
 
 import {taskStatuses} from "../../constants/taskStatuses"
 
@@ -14,7 +15,18 @@ function TaskBoard() {
     createTask,
     updateTask,
     deleteTask,
-  } = tasksService.useTasks()
+  } = useTasks()
+
+  const tasksByStatusId = useMemo(() => {
+    return tasks.reduce((groups, task) => {
+      if (!groups[task.statusId]) {
+        groups[task.statusId] = []
+      }
+
+      groups[task.statusId].push(task)
+      return groups
+    }, {})
+  }, [tasks])
 
   return (
     <>
@@ -39,7 +51,7 @@ function TaskBoard() {
       {!isLoading && !error && (
         <div className="grid gap-5 lg:grid-cols-3">
           {taskStatuses.map((status) => {
-            const columnTasks = tasks.filter((task) => task.statusId === status.id)
+            const columnTasks = tasksByStatusId[status.id] ?? []
 
             return (
               <section
