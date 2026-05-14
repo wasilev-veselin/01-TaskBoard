@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-// validators/ - Zod schemas for request validation.
+// schemas/ - Zod schemas for request validation.
 const allowedStatusIds = [1, 2, 3]
 
 const titleSchema = z

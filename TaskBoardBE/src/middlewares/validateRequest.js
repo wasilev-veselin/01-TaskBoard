@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-// middlewares/ - Custom Express middleware such as validation, error handling, and CORS.
+// Request validation middleware. Schemas live in src/schemas.
 function formatValidationErrors(error) {
   const flattenedError = z.flattenError(error)
 
@@ -16,7 +16,7 @@ export function validateParams(schema) {
 
     if (!result.success) {
       return response.status(400).json({
-        error: "Validation error",
+        error: "Validation paramerror",
         details: formatValidationErrors(result.error),
       })
     }
@@ -32,7 +32,7 @@ export function validateBody(schema) {
 
     if (!result.success) {
       return response.status(400).json({
-        error: "Validation error",
+        error: "Validation bodyerror",
         details: formatValidationErrors(result.error),
       })
     }

@@ -1,11 +1,11 @@
 import { Router } from "express"
 import * as tasksController from "../controllers/tasks.controller.js"
-import { validateBody, validateParams } from "../middlewares/validate.js"
+import { validateBody, validateParams } from "../middlewares/validateRequest.js"
 import {
   taskBodySchema,
   taskIdParamsSchema,
   taskUpdateBodySchema,
-} from "../validators/task.validators.js"
+} from "../schemas/task.schema.js"
 
 // routes/ - Defines endpoints and the middleware order before controllers.
 export const tasksRouter = Router()
